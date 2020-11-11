@@ -1,72 +1,117 @@
-using System;
+﻿using System;
 
 namespace BadMorals
 {
     public class Program
     {
-        static string s1 = "2SXFnY5yWMMHytNyzMM3uYFzzcZnuMNzzXXzzNMunZczzFYu3MMzyNtyHMMWy5YnFXS2";
-        static string s2 = "fdmbxkHNsB3XGR1Q";
-
-        static char[] a = s1.ToCharArray();
-        static char[] b = s2.ToCharArray();
-        static char[] c;
-
-        static string build;
+        static string checker;
+        static string firstresult;
+        static string secondresult;
+        static string thirdresult;
         public static void Main(string[] args)
         {
 
-            //section 0: Read user input and possibly return the flag. The user input is currently: ":"
-            if (args.Length == 1)
+            try
             {
-                build = args[0] + ":PNDlGpXpoR:7";
-                c = build.ToCharArray();
-            }
-            else
-            {
-                Console.Write("Usage: HV20.exe ARG");
-                Environment.Exit(1);
-            }
-
-
-            // Section 1: Get every second char of s1
-            string firstresult = "";
-            for (int i = 0; i < a.Length; i++)
-            {
-                if (i % 2 == 0)
+                // <-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0->
+                Console.Write("Your first input: ");
+                char[] a = Console.ReadLine().ToCharArray();
+                checker = "";
+                firstresult = "";
+                for (int i = 0; i < a.Length; i++)
                 {
-                    firstresult += a[i+1];
+                    if (i % 2 == 0 && i + 2 <= a.Length)
+                    {
+                        checker += a[i + 1];
+                    }
+                }
+
+                if (checker == "BumBumWithTheTumTum")
+                {
+                    firstresult = "SFYyMH" + a[17] + "yM3YzcnMzXzN" + a[3] + "ZzF" + a[9] + "MzNyM" + a[13] + "5nX2";
+                }
+                else if (checker == "")
+                {
+                    Console.Write("Your input is not allowed to result in an empty string");
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    firstresult = checker;
+                }
+
+
+                // <-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0->
+                Console.Write("Your second input: ");
+                char[] b = Console.ReadLine().ToCharArray();
+                checker = "";
+                secondresult = "";
+                Array.Reverse(b);
+                for (int u = 0; u < b.Length; u++)
+                {
+                    checker += b[u];
+                }
+
+                if (checker == "BackAndForth")
+                {
+                    secondresult = "Q1RGX3" + b[11] + "sNH" + b[8] + "xbm" + b[5] + "f";
+                }
+                else if (checker == "")
+                {
+                    Console.Write("Your input is not allowed to result in an empty string");
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    secondresult = checker;
+                }
+
+                // <-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0->
+                Console.Write("Your third input: ");
+                char[] c = Console.ReadLine().ToCharArray();
+                checker = "";
+                thirdresult = "";
+                byte q = 42;
+                for (int z = 0; z < c.Length; z++)
+                {
+                    char newchar = (char)(c[z] ^ q);
+                    checker += newchar;
+                }
+
+                if (checker == "DinosAreLit")
+                {
+                    thirdresult = "00Z" + c[2] + "N" + c[8] + "MzRze" + c[6] + "0=";
+                }
+                else if (checker == "")
+                {
+                    Console.Write("Your input is not allowed to result in an empty string");
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    thirdresult = checker;
                 }
             }
 
-            // Section 2: Reverse the string s2
-            string secondresult = "";
-            Array.Reverse(b);
-            for (int u = 0; u < b.Length; u++)
+            catch
             {
-                secondresult += b[u];
+                Console.Write("An error occured. Please try again.");
+                Environment.Exit(0);
             }
 
-            // Section 3: XOR the userinput + string with a fixed byte
-            string thirdresult = "";
-            byte q = 10;
-            for (int z = 0; z < c.Length; z++)
-            {
 
-                char newchar = (char)(c[z] ^ q);
-                thirdresult += newchar;
-            }
-
-            // Final section: Convert the two strings from Base64 and print it out.
+            // <-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0->
             try
             {
                 string final = firstresult + thirdresult;
                 byte[] bit = Convert.FromBase64String(final);
                 string flag = System.Text.Encoding.ASCII.GetString(bit);
-                Console.Write(flag);
+                Console.Write("Congratulations! You're now worthy to claim your flag: {0}", flag);
             }
+
             catch
             {
-                Console.Write("Your input does not result in a valid Base64 string.");
+                Console.Write("Your inputs do not result in a valid Base64 string.");
             }
         }
     }
