@@ -1,11 +1,9 @@
 # HV20-BadMorals
 Repository for the HACKvent 2020 "BadMorals" challenge
 
-## Changes for v1.1:
-• Added every-second-char encryption.
+## Changes for v1.3:
+• Better arranged code
 
-• Added reverse-string encryption.
+• The user now has to fully understand what the program does to be able to solve it.
 
-• Added XOR encryption.
-
-• Cleared up variable names and made everything more clearly arranged.
+• Catch errors
