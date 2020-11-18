@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace BadMorals
 {
@@ -39,7 +39,6 @@ namespace BadMorals
                 {
                     firstresult = checker;
                 }
-
 
                 // <-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0->
                 Console.Write("Your second input: ");
@@ -99,14 +98,20 @@ namespace BadMorals
                 Environment.Exit(0);
             }
 
-
             // <-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0->
             try
             {
                 string final = firstresult + thirdresult;
                 byte[] bit = Convert.FromBase64String(final);
                 string flag = System.Text.Encoding.ASCII.GetString(bit);
-                Console.Write("Congratulations! You're now worthy to claim your flag: {0}", flag);
+                if (flag.StartsWith("HV20{"))
+                {
+                    Console.Write("Congratulations! You're now worthy to claim your flag: {0}", flag);
+                }
+                else
+                {
+                    Console.Write("Your inputs do not result in the flag.");
+                }
             }
 
             catch
