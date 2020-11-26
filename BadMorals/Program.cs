@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography;
 
 namespace BadMorals
 {
@@ -32,8 +33,8 @@ namespace BadMorals
                 }
                 else if (checker == "")
                 {
-                    Console.Write("Your input is not allowed to result in an empty string");
-                    Environment.Exit(0);
+                    Console.WriteLine("Your input is not allowed to result in an empty string");
+                    return;
                 }
                 else
                 {
@@ -57,8 +58,8 @@ namespace BadMorals
                 }
                 else if (checker == "")
                 {
-                    Console.Write("Your input is not allowed to result in an empty string");
-                    Environment.Exit(0);
+                    Console.WriteLine("Your input is not allowed to result in an empty string");
+                    return;
                 }
                 else
                 {
@@ -83,40 +84,49 @@ namespace BadMorals
                 }
                 else if (checker == "")
                 {
-                    Console.Write("Your input is not allowed to result in an empty string");
-                    Environment.Exit(0);
+                    Console.WriteLine("Your input is not allowed to result in an empty string");
+                    return;
                 }
                 else
                 {
                     thirdresult = checker;
                 }
-            }
 
-            catch
-            {
-                Console.Write("An error occured. Please try again.");
-                Environment.Exit(0);
-            }
-
-            // <-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0->
-            try
-            {
                 string final = firstresult + thirdresult;
                 byte[] bit = Convert.FromBase64String(final);
+                byte[] verifier = Convert.FromBase64String(secondresult);
+
+                byte[] check = new byte[bit.Length];
+                for (int i = 0; i < bit.Length; i++)
+                {
+                    check[i] = (byte) (bit[i] ^ verifier[i % verifier.Length]);
+                }
+                
+                var digest = SHA1.Create().ComputeHash(check);
+                byte[] expected = new byte[] { 66, 106, 120, 231, 140, 169, 167, 205, 221, 153, 71, 118, 87, 167, 96, 161, 90, 211, 208, 244 };
+                for (var i = 0; i < digest.Length; i++)
+                {
+                    if (digest[i] != expected[i])
+                    {
+                        Console.WriteLine("Your inputs do not result in the flag.");
+                        return;
+                    }
+                }
+
                 string flag = System.Text.Encoding.ASCII.GetString(bit);
                 if (flag.StartsWith("HV20{"))
                 {
-                    Console.Write("Congratulations! You're now worthy to claim your flag: {0}", flag);
-                }
-                else
-                {
-                    Console.Write("Your inputs do not result in the flag.");
+                    Console.WriteLine("Congratulations! You're now worthy to claim your flag: {0}", flag);
                 }
             }
-
             catch
             {
-                Console.Write("Your inputs do not result in a valid Base64 string.");
+                Console.WriteLine("Please try again.");
+            }
+            finally
+            {
+                Console.WriteLine("Press enter to exit.");
+                Console.ReadLine();
             }
         }
     }
